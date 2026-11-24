@@ -159,6 +159,14 @@ reinicio de lecturas y regeneración de la orden) para que la app nunca lance un
 
 ---
 
+## 🖼️ Capturas de la aplicación
+
+| Operación normal (estado 0) | Fallo crítico con orden de trabajo (estado 2) |
+|---|---|
+| ![Panel en operación normal](capturas/01_panel_operacion_normal.png) | ![Orden de trabajo crítica](capturas/02_orden_trabajo_fallo_critico.png) |
+
+---
+
 ## 📦 Evidencias para la plataforma
 
 - [ ] URL pública de la app desplegada.
