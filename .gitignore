@@ -1,0 +1,25 @@
+# --- Seguridad: NUNCA subir credenciales ---
+.streamlit/secrets.toml
+*.env
+.env
+
+# --- Entorno virtual ---
+.venv/
+venv/
+env/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# --- Sistema operativo / editor ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+
+# --- Notebooks ---
+.ipynb_checkpoints/
