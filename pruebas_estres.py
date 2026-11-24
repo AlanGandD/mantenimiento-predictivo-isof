@@ -173,6 +173,33 @@ def probar_resiliencia_api():
     registrar(caso, ok, detalle)
 
 
+def probar_controles():
+    """Verificación extra: atajos de casos, reinicio de lecturas y regeneración."""
+    caso = "Extra · Controles del panel (atajos, reiniciar, regenerar)"
+    try:
+        at = app_nueva(CLAVE)
+        at.run()
+
+        at.button(key="btn_Caso 3 · Sobrecarga Crítica").click().run()
+        atajo_ok = not at.exception and abs(at.slider(key="in_temp").value - 98.0) < 1e-6
+
+        at.button(key="btn_reset").click().run()
+        reinicio_ok = not at.exception and abs(at.slider(key="in_temp").value - 62.5) < 1e-6
+
+        at.button(key="btn_regen").click().run()
+        regen_ok = not at.exception and at.session_state.get("nonce") == 1
+
+        ok = atajo_ok and reinicio_ok and regen_ok
+        detalle = (
+            "los 3 controles responden sin excepciones"
+            if ok
+            else f"atajo={atajo_ok} · reinicio={reinicio_ok} · regenerar={regen_ok}"
+        )
+        registrar(caso, ok, detalle)
+    except Exception as error:
+        registrar(caso, False, f"error del arnés: {error}")
+
+
 if __name__ == "__main__":
     CLAVE = leer_clave()
     CLAVE_VALIDA = bool(CLAVE) and not CLAVE.startswith("gsk_TU")
@@ -192,6 +219,7 @@ if __name__ == "__main__":
 
     probar_sin_csv()
     probar_resiliencia_api()
+    probar_controles()
 
     total, aprobados = len(resultados), sum(1 for r in resultados if r["ok"])
     omitidos = sum(1 for r in resultados if r["omitido"])

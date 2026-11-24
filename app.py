@@ -364,6 +364,11 @@ with st.sidebar.expander("🧪 Cargar caso de prueba", expanded=False):
                 st.session_state[clave] = valor
             st.rerun()
 
+# Restauración diferida del botón "Reiniciar" (se aplica antes de crear los sliders).
+if st.session_state.pop("_reset_pendiente", False):
+    for clave, valor in DEFAULTS.items():
+        st.session_state[clave] = valor
+
 # Valores iniciales (solo si la clave aún no existe en la sesión).
 for clave, valor in DEFAULTS.items():
     if clave not in st.session_state:
@@ -388,11 +393,14 @@ presion = st.sidebar.slider(
 
 st.sidebar.divider()
 col_a, col_b = st.sidebar.columns(2)
-if col_a.button("♻️ Reiniciar", use_container_width=True, help="Vuelve a las lecturas por defecto"):
-    for clave, valor in DEFAULTS.items():
-        st.session_state[clave] = valor
+if col_a.button("♻️ Reiniciar", use_container_width=True,
+                help="Vuelve a las lecturas por defecto", key="btn_reset"):
+    # No se puede escribir en session_state después de crear el widget: se difiere
+    # la restauración al inicio del siguiente rerun.
+    st.session_state["_reset_pendiente"] = True
     st.rerun()
-if col_b.button("🔄 Regenerar", use_container_width=True, help="Vuelve a pedir el documento a Groq"):
+if col_b.button("🔄 Regenerar", use_container_width=True,
+                help="Vuelve a pedir el documento a Groq", key="btn_regen"):
     st.session_state["nonce"] = st.session_state.get("nonce", 0) + 1
     st.rerun()
 

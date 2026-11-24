@@ -133,6 +133,9 @@ renderizado. Resultado de la última ejecución:
 | 4 | Desacoplamiento (CSV renombrado) | La app arranca igual: solo depende del `.pkl` | ✅ |
 | 5 | Resiliencia de API (clave inválida) | `try/except` captura el error, el diagnóstico de ML permanece | ✅ |
 
+**8/8 verificaciones superadas.** El arnés también valida los controles del panel (atajos de casos,
+reinicio de lecturas y regeneración de la orden) para que la app nunca lance una excepción en la demo.
+
 ---
 
 ## ☁️ Despliegue en Streamlit Community Cloud
